@@ -11,6 +11,19 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+const getPost = async (req, res, id) => {
+  const singlePost = await Post.findById(id);
+
+  if (singlePost) {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(singlePost));
+  } else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Post Not Found.." }));
+  }
+};
+
 module.exports = {
   getAllPosts,
+  getPost,
 };
