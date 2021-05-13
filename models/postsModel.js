@@ -1,4 +1,6 @@
 const posts = require("../data/posts");
+const { v4: uuid } = require("uuid");
+const { insertDataToFile } = require("../utils");
 
 const findAll = () => {
   return new Promise((resolve, reject) => {
@@ -13,7 +15,17 @@ const findById = (id) => {
   });
 };
 
+const create = (post) => {
+  return new Promise((resolve, reject) => {
+    const content = { ...post, id: uuid() };
+    posts.push(content);
+    insertDataToFile("./data/posts.json", posts);
+    resolve(content);
+  });
+};
+
 module.exports = {
   findAll,
   findById,
+  create,
 };

@@ -1,5 +1,9 @@
 const http = require("http");
-const { getAllPosts, getPost } = require("./controller/postController");
+const {
+  getAllPosts,
+  getPost,
+  createPost,
+} = require("./controller/postController");
 
 const server = http.createServer((req, res) => {
   if (req.url === "/" && req.method === "GET") {
@@ -10,6 +14,8 @@ const server = http.createServer((req, res) => {
   } else if (req.url.match(/\/api\/post\/([0-9]+)/) && req.method === "GET") {
     const id = Number(req.url.split("/")[3]);
     getPost(req, res, id);
+  } else if (req.url.match("/api/posts") && req.method === "POST") {
+    createPost(req, res);
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "Route not found!" }));
